@@ -27,7 +27,4 @@ public interface List {
     void clear();
 
     int size();
-
-    @Override
-    String toString();
 }
