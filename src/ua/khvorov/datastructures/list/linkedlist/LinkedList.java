@@ -4,9 +4,9 @@ import ua.khvorov.datastructures.list.List;
 
 public class LinkedList implements List {
 
-    Node first = new Node();
-    Node last = new Node();
-    int size = 0;
+    private Node first;
+    private Node last;
+    private int size;
 
     public LinkedList() {
 
@@ -14,13 +14,13 @@ public class LinkedList implements List {
 
     @Override
     public void add(Object item, int index) {
-        AddIndexRangeCheck(index);
+        addIndexRangeCheck(index);
 
         if (index == 0) {
             addFirst(item);
             return;
         } else if (index == size) {
-            addLast(item);
+            add(item);
             return;
         }
 
@@ -39,17 +39,12 @@ public class LinkedList implements List {
         size++;
     }
 
-
     @Override
     public void add(Object item) {
-        addLast(item);
-    }
-
-    public void addLast(Object item) {
         Node newNode = new Node();
         newNode.item = item;
 
-        if (size == 0) {
+        if (isEmpty()) {
             first = newNode;
             last = newNode;
         } else {
@@ -64,7 +59,7 @@ public class LinkedList implements List {
         Node newNode = new Node();
         newNode.item = item;
 
-        if (size == 0) {
+        if (isEmpty()) {
             first = newNode;
             last = newNode;
         } else {
@@ -78,7 +73,7 @@ public class LinkedList implements List {
     @Override
     public void add(Object... args) {
         for (Object item : args) {
-            addLast(item);
+            add(item);
         }
     }
 
@@ -164,27 +159,20 @@ public class LinkedList implements List {
         if (size == 1) {
             first = null;
             last = null;
-            size--;
-            return;
         } else if (index == 0) {
             first = first.next;
             first.prev = null;
-            size--;
-            return;
         } else if (index == size - 1) {
             last = last.prev;
             last.next = null;
-            size--;
-            return;
+        } else {
+            Node target = first;
+            for (int i = 0; i < index; i++) {
+                target = target.next;
+            }
+            target.prev.next = target.next;
+            target.next.prev = target.prev;
         }
-
-        Node target = first;
-        for (int i = 0; i < index; i++) {
-            target = target.next;
-        }
-        target.prev.next = target.next;
-        target.next.prev = target.prev;
-
         size--;
     }
 
@@ -213,8 +201,7 @@ public class LinkedList implements List {
         return size;
     }
 
-
-    private void AddIndexRangeCheck(int index) {
+    private void addIndexRangeCheck(int index) {
         if (index < 0 || index > size) {
             throw new IndexOutOfBoundsException(indexOutOfBoundsMessage(index));
         }
@@ -229,7 +216,6 @@ public class LinkedList implements List {
     private String indexOutOfBoundsMessage(int index) {
         return "index : " + index + ", size : " + size;
     }
-
 
     private static class Node {
         private Object item;

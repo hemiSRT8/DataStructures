@@ -1,8 +1,5 @@
 package ua.khvorov.datastructures.list;
 
-/**
- * Created by umb on 11.04.2014.
- */
 public interface List {
     void add(Object element, int index);
 
