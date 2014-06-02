@@ -217,6 +217,23 @@ public class LinkedList implements List {
         return "index : " + index + ", size : " + size;
     }
 
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder(size);
+
+        Node target = first;
+
+        for (int i = 0; i < size; i++) {
+            stringBuilder.append(target.item);
+            if (i != size - 1) {
+                stringBuilder.append(",");
+            }
+            target = target.next;
+        }
+
+        return stringBuilder.toString();
+    }
+
     private static class Node {
         private Object item;
         private Node next;
