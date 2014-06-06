@@ -3,6 +3,9 @@ package ua.khvorov.datastructures.list;
 import org.junit.Before;
 import org.junit.Test;
 import ua.khvorov.datastructures.list.arraylist.ArrayList;
+import ua.khvorov.datastructures.list.linkedlist.LinkedList;
+
+import java.util.NoSuchElementException;
 
 import static junit.framework.Assert.*;
 
@@ -216,6 +219,42 @@ public abstract class AbstractListTest {
         assertTrue(list.isEmpty());
     }
 
+    @Test
+    public void testIterator() {
+        if (list instanceof LinkedList) {
+            LinkedList original = (LinkedList) list;
+            LinkedList copy = new LinkedList();
+
+            original.add(1, 2, 3, 4, 5);
+            for (Object obj : original) {
+                copy.add(obj);
+            }
+
+            for (int i = 0; i < original.size(); i++) {
+                assertEquals(original.get(i), copy.get(i));
+            }
+
+            original.clear();
+            assertFalse(original.iterator().hasNext());
+
+        } else if (list instanceof ArrayList) {
+            ArrayList original = (ArrayList) list;
+            ArrayList copy = new ArrayList();
+
+            original.add(1, 2, 3, 4, 5);
+            for (Object obj : original) {
+                copy.add(obj);
+            }
+
+            for (int i = 0; i < original.size(); i++) {
+                assertEquals(original.get(i), copy.get(i));
+            }
+
+            original.clear();
+            assertFalse(original.iterator().hasNext());
+        }
+    }
+
     @Test(expected = IndexOutOfBoundsException.class)
     public void testAddWithIndexException() {
         list.add(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
@@ -249,5 +288,16 @@ public abstract class AbstractListTest {
     @Test(expected = IllegalArgumentException.class)
     public void testInitialSizeCheck() {
         ArrayList al = new ArrayList(-1);
+    }
+
+    @Test(expected = NoSuchElementException.class)
+    public void testNext() {
+        if (list instanceof LinkedList) {
+            LinkedList linkedList = (LinkedList) list;
+            linkedList.iterator().next();
+        } else if (list instanceof ArrayList) {
+            ArrayList arrayList = (ArrayList) list;
+            arrayList.iterator().next();
+        }
     }
 }

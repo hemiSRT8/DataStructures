@@ -2,7 +2,10 @@ package ua.khvorov.datastructures.list.arraylist;
 
 import ua.khvorov.datastructures.list.List;
 
-public class ArrayList implements List {
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
+public class ArrayList implements List, Iterable {
 
     //Fields
     private Object[] array;
@@ -150,6 +153,42 @@ public class ArrayList implements List {
 
     private String outOfBoundsMsg(int index) {
         return "Index: " + index + ", Size: " + size;
+    }
+
+    @Override
+    public Iterator iterator() {
+        return new ArrayListIterator();
+    }
+
+    private class ArrayListIterator implements Iterator {
+
+        private int position = -1;
+        private int check = 0;
+
+        private ArrayListIterator() {
+
+        }
+
+        @Override
+        public boolean hasNext() {
+            return size != 0 && check < size;
+        }
+
+        @Override
+        public Object next() {
+            if (!hasNext()) {
+                throw new NoSuchElementException();
+            }
+
+            position++;
+            check++;
+            return get(position);
+        }
+
+        @Override
+        public void remove() {
+            ArrayList.this.remove(position);
+        }
     }
 
     @Override

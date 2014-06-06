@@ -2,7 +2,10 @@ package ua.khvorov.datastructures.list.linkedlist;
 
 import ua.khvorov.datastructures.list.List;
 
-public class LinkedList implements List {
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
+public class LinkedList implements List, Iterable {
 
     private Node first;
     private Node last;
@@ -217,6 +220,55 @@ public class LinkedList implements List {
         return "index : " + index + ", size : " + size;
     }
 
+    private static class Node {
+        private Object item;
+        private Node next;
+        private Node prev;
+
+        public Node() {
+        }
+    }
+
+    /**
+     * Iterator
+     */
+
+    @Override
+    public Iterator iterator() {
+        return new LinkedListIterator();
+    }
+
+    private class LinkedListIterator implements Iterator {
+
+        private int position = -1;
+        private int check = 0;
+
+        private LinkedListIterator() {
+
+        }
+
+        @Override
+        public boolean hasNext() {
+            return size != 0 && check < size;
+        }
+
+        @Override
+        public Object next() {
+            if (!hasNext()) {
+                throw new NoSuchElementException();
+            }
+
+            position++;
+            check++;
+            return get(position);
+        }
+
+        @Override
+        public void remove() {
+            LinkedList.this.remove(position);
+        }
+    }
+
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder(size);
@@ -232,14 +284,5 @@ public class LinkedList implements List {
         }
 
         return stringBuilder.toString();
-    }
-
-    private static class Node {
-        private Object item;
-        private Node next;
-        private Node prev;
-
-        public Node() {
-        }
     }
 }
