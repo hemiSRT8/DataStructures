@@ -1,23 +1,23 @@
 package ua.khvorov.datastructures.list;
 
-public interface List {
-    void add(Object element, int index);
+public interface List<E> {
+    void add(E element, int index);
 
-    void add(Object element);
+    void add(E element);
 
-    void add(Object... args);
+    void add(E... args);
 
     Object get(int index);
 
-    int indexOf(Object element);
+    int indexOf(E element);
 
-    int lastIndexOf(Object element);
+    int lastIndexOf(E element);
 
-    void set(Object element, int index);
+    void set(E element, int index);
 
     void remove(int index);
 
-    boolean contains(Object element);
+    boolean contains(E element);
 
     boolean isEmpty();
 

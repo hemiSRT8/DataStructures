@@ -1,25 +1,24 @@
-package ua.khvorov.datastructures.list.arraylist;
+package ua.khvorov.datastructures.list;
 
-import ua.khvorov.datastructures.list.List;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
-public class ArrayList implements List {
+public class ArrayList<E> implements List<E>, Iterable {
 
-    //Fields
     private Object[] array;
     private int size;
 
-    //Constructors
     public ArrayList() {
         array = new Object[10];
     }
 
-    public ArrayList(int amountOfObjects) {
-        initialSizeCheck(amountOfObjects);
-        array = new Object[amountOfObjects];
+    public ArrayList(int capacity) {
+        initialSizeCheck(capacity);
+        array = new Object[capacity];
     }
 
     @Override
-    public void add(Object element, int index) {
+    public void add(E element, int index) {
         rangeCheckForAdd(index);
         if (size < array.length) {
             System.arraycopy(array, index, array, index + 1, size - index);
@@ -34,26 +33,27 @@ public class ArrayList implements List {
     }
 
     @Override
-    public void add(Object element) {
+    public void add(E element) {
         add(element, size);
     }
 
 
     @Override
-    public void add(Object... args) {
-        for (Object element : args) {
+    public void add(E... args) {
+        for (E element : args) {
             add(element);
         }
     }
 
+    @SuppressWarnings("unchecked")
     @Override
-    public Object get(int index) {
+    public E get(int index) {
         rangeCheck(index);
-        return array[index];
+        return (E) array[index];
     }
 
     @Override
-    public int indexOf(Object element) {
+    public int indexOf(E element) {
         if (element == null) {
             for (int index = 0; index < size; index++) {
                 if (array[index] == null) {
@@ -71,7 +71,7 @@ public class ArrayList implements List {
     }
 
     @Override
-    public int lastIndexOf(Object element) {
+    public int lastIndexOf(E element) {
         if (element == null) {
             for (int index = size - 1; index >= 0; index--) {
                 if (array[index] == null) {
@@ -90,7 +90,7 @@ public class ArrayList implements List {
     }
 
     @Override
-    public void set(Object element, int index) {
+    public void set(E element, int index) {
         rangeCheckForAdd(index);
         array[index] = element;
     }
@@ -108,7 +108,7 @@ public class ArrayList implements List {
     }
 
     @Override
-    public boolean contains(Object element) {
+    public boolean contains(E element) {
         return indexOf(element) != -1;
     }
 
@@ -141,15 +141,49 @@ public class ArrayList implements List {
     }
 
 
-    private void initialSizeCheck(int amountOfObjects) {
-        if (amountOfObjects < 0) {
+    private void initialSizeCheck(int capacity) {
+        if (capacity < 0) {
             throw new IllegalArgumentException("Amount of objects cannot be less than 0 , your amount of objects is : " +
-                    amountOfObjects);
+                    capacity);
         }
     }
 
     private String outOfBoundsMsg(int index) {
-        return "Index: " + index + ", Size: " + size;
+        return "Index: " + index + ", size: " + size;
+    }
+
+    @Override
+    public Iterator iterator() {
+        return new ArrayListIterator();
+    }
+
+    private class ArrayListIterator implements Iterator<E> {
+
+        private int position = -1;
+
+        private ArrayListIterator() {
+
+        }
+
+        @Override
+        public boolean hasNext() {
+            return size != 0 && position + 1 < size;
+        }
+
+        @Override
+        public E next() {
+            if (!hasNext()) {
+                throw new NoSuchElementException();
+            }
+
+            position++;
+            return get(position);
+        }
+
+        @Override
+        public void remove() {
+            ArrayList.this.remove(position);
+        }
     }
 
     @Override
