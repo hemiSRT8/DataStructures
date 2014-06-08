@@ -2,8 +2,6 @@ package ua.khvorov.datastructures.list;
 
 import org.junit.Before;
 import org.junit.Test;
-import ua.khvorov.datastructures.list.arraylist.ArrayList;
-import ua.khvorov.datastructures.list.linkedlist.LinkedList;
 
 import java.util.NoSuchElementException;
 

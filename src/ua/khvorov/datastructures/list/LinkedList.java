@@ -1,14 +1,12 @@
-package ua.khvorov.datastructures.list.linkedlist;
-
-import ua.khvorov.datastructures.list.List;
+package ua.khvorov.datastructures.list;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class LinkedList implements List, Iterable {
+public class LinkedList<E> implements List<E>, Iterable {
 
-    private Node first;
-    private Node last;
+    private Node<E> first;
+    private Node<E> last;
     private int size;
 
     public LinkedList() {
@@ -16,24 +14,24 @@ public class LinkedList implements List, Iterable {
     }
 
     @Override
-    public void add(Object item, int index) {
+    public void add(E element, int index) {
         addIndexRangeCheck(index);
 
         if (index == 0) {
-            addFirst(item);
+            addFirst(element);
             return;
         } else if (index == size) {
-            add(item);
+            add(element);
             return;
         }
 
-        Node target = first;
+        Node<E> target = first;
         for (int i = 0; i < index; i++) {
             target = target.next;
         }
 
-        Node newNode = new Node();
-        newNode.item = item;
+        Node<E> newNode = new Node<E>();
+        newNode.item = element;
         newNode.prev = target.prev;
         newNode.next = target;
         target.prev.next = newNode;
@@ -43,9 +41,9 @@ public class LinkedList implements List, Iterable {
     }
 
     @Override
-    public void add(Object item) {
-        Node newNode = new Node();
-        newNode.item = item;
+    public void add(E element) {
+        Node<E> newNode = new Node<E>();
+        newNode.item = element;
 
         if (isEmpty()) {
             first = newNode;
@@ -58,9 +56,9 @@ public class LinkedList implements List, Iterable {
         size++;
     }
 
-    public void addFirst(Object item) {
-        Node newNode = new Node();
-        newNode.item = item;
+    public void addFirst(E element) {
+        Node<E> newNode = new Node<E>();
+        newNode.item = element;
 
         if (isEmpty()) {
             first = newNode;
@@ -74,17 +72,17 @@ public class LinkedList implements List, Iterable {
     }
 
     @Override
-    public void add(Object... args) {
-        for (Object item : args) {
-            add(item);
+    public void add(E... args) {
+        for (E element : args) {
+            add(element);
         }
     }
 
     @Override
-    public Object get(int index) {
+    public E get(int index) {
         indexRangeCheck(index);
 
-        Node target = first;
+        Node<E> target = first;
 
         for (int i = 0; i < index; i++) {
             target = target.next;
@@ -93,10 +91,10 @@ public class LinkedList implements List, Iterable {
     }
 
     @Override
-    public int indexOf(Object itemToSearch) {
-        Node temp = first;
+    public int indexOf(E element) {
+        Node<E> temp = first;
 
-        if (itemToSearch == null) {
+        if (element == null) {
             for (int i = 0; i < size; i++) {
                 if (temp.item == null) {
                     return i;
@@ -106,7 +104,7 @@ public class LinkedList implements List, Iterable {
         } else {
             for (int i = 0; i < size; i++) {
                 if (temp.item != null) {
-                    if (temp.item.equals(itemToSearch)) {
+                    if (temp.item.equals(element)) {
                         return i;
                     }
                 }
@@ -117,11 +115,11 @@ public class LinkedList implements List, Iterable {
     }
 
     @Override
-    public int lastIndexOf(Object itemToSearch) {
-        Node temp = last;
+    public int lastIndexOf(E element) {
+        Node<E> temp = last;
         int index = size - 1;
 
-        if (itemToSearch == null) {
+        if (element == null) {
             for (int i = index; i > 0; i--) {
                 if (temp.item == null) {
                     return i;
@@ -131,7 +129,7 @@ public class LinkedList implements List, Iterable {
         } else {
             for (int i = size - 1; i > 0; i--) {
                 if (temp.item != null) {
-                    if (temp.item.equals(itemToSearch)) {
+                    if (temp.item.equals(element)) {
                         return i;
                     }
                     temp = temp.prev;
@@ -143,16 +141,16 @@ public class LinkedList implements List, Iterable {
     }
 
     @Override
-    public void set(Object itemToSet, int index) {
+    public void set(E element, int index) {
         indexRangeCheck(index);
 
-        Node target = first;
+        Node<E> target = first;
 
         for (int i = 0; i < index; i++) {
             target = target.next;
         }
 
-        target.item = itemToSet;
+        target.item = element;
     }
 
     @Override
@@ -169,7 +167,7 @@ public class LinkedList implements List, Iterable {
             last = last.prev;
             last.next = null;
         } else {
-            Node target = first;
+            Node<E> target = first;
             for (int i = 0; i < index; i++) {
                 target = target.next;
             }
@@ -180,7 +178,7 @@ public class LinkedList implements List, Iterable {
     }
 
     @Override
-    public boolean contains(Object item) {
+    public boolean contains(E item) {
         return indexOf(item) != -1;
     }
 
@@ -191,7 +189,7 @@ public class LinkedList implements List, Iterable {
 
     @Override
     public void clear() {
-        Node temp = first;
+        Node<E> temp = first;
         for (int i = 0; i < size; i++) {
             temp.item = null;
             temp = temp.next;
@@ -220,10 +218,10 @@ public class LinkedList implements List, Iterable {
         return "index : " + index + ", size : " + size;
     }
 
-    private static class Node {
-        private Object item;
-        private Node next;
-        private Node prev;
+    private static class Node<E> {
+        private E item;
+        private Node<E> next;
+        private Node<E> prev;
 
         public Node() {
         }
@@ -241,7 +239,6 @@ public class LinkedList implements List, Iterable {
     private class LinkedListIterator implements Iterator {
 
         private int position = -1;
-        private int check = 0;
 
         private LinkedListIterator() {
 
@@ -249,7 +246,7 @@ public class LinkedList implements List, Iterable {
 
         @Override
         public boolean hasNext() {
-            return size != 0 && check < size;
+            return size != 0 && position + 1 < size;
         }
 
         @Override
@@ -259,7 +256,6 @@ public class LinkedList implements List, Iterable {
             }
 
             position++;
-            check++;
             return get(position);
         }
 
@@ -271,9 +267,11 @@ public class LinkedList implements List, Iterable {
 
     @Override
     public String toString() {
-        StringBuilder stringBuilder = new StringBuilder(size);
+        StringBuilder stringBuilder = new StringBuilder();
 
         Node target = first;
+
+        stringBuilder.append("[");
 
         for (int i = 0; i < size; i++) {
             stringBuilder.append(target.item);
@@ -283,6 +281,6 @@ public class LinkedList implements List, Iterable {
             target = target.next;
         }
 
-        return stringBuilder.toString();
+        return stringBuilder.append("]").toString();
     }
 }

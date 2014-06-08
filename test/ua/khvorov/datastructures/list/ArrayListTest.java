@@ -1,7 +1,5 @@
 package ua.khvorov.datastructures.list;
 
-import ua.khvorov.datastructures.list.arraylist.ArrayList;
-
 public class ArrayListTest extends AbstractListTest{
 
     @Override
