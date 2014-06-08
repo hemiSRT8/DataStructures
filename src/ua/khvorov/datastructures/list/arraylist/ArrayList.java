@@ -1,6 +1,8 @@
-package ua.khvorov.datastructures.list;
+package ua.khvorov.datastructures.list.arraylist;
 
-public class ArrayList {
+import ua.khvorov.datastructures.list.List;
+
+public class ArrayList implements List {
 
     //Fields
     private Object[] array;
@@ -16,6 +18,7 @@ public class ArrayList {
         array = new Object[amountOfObjects];
     }
 
+    @Override
     public void add(Object element, int index) {
         rangeCheckForAdd(index);
         if (size < array.length) {
@@ -30,22 +33,26 @@ public class ArrayList {
         size++;
     }
 
+    @Override
     public void add(Object element) {
         add(element, size);
     }
 
 
+    @Override
     public void add(Object... args) {
         for (Object element : args) {
             add(element);
         }
     }
 
+    @Override
     public Object get(int index) {
         rangeCheck(index);
         return array[index];
     }
 
+    @Override
     public int indexOf(Object element) {
         if (element == null) {
             for (int index = 0; index < size; index++) {
@@ -63,6 +70,7 @@ public class ArrayList {
         return -1;
     }
 
+    @Override
     public int lastIndexOf(Object element) {
         if (element == null) {
             for (int index = size - 1; index >= 0; index--) {
@@ -81,11 +89,13 @@ public class ArrayList {
         return -1;
     }
 
+    @Override
     public void set(Object element, int index) {
         rangeCheckForAdd(index);
         array[index] = element;
     }
 
+    @Override
     public void remove(int index) {
         rangeCheck(index);
         if (index == size - 1) {
@@ -97,14 +107,17 @@ public class ArrayList {
         size--;
     }
 
+    @Override
     public boolean contains(Object element) {
         return indexOf(element) != -1;
     }
 
+    @Override
     public boolean isEmpty() {
         return size == 0;
     }
 
+    @Override
     public void clear() {
         for (int index = 0; index < size; index++) {
             array[index] = null;
@@ -112,6 +125,7 @@ public class ArrayList {
         size = 0;
     }
 
+    @Override
     public int size() {
         return size;
     }
