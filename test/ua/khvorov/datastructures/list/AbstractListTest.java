@@ -7,6 +7,7 @@ import java.util.NoSuchElementException;
 
 import static junit.framework.Assert.*;
 
+@SuppressWarnings("unchecked")
 public abstract class AbstractListTest {
     private List list;
 
