@@ -7,10 +7,11 @@ import java.util.NoSuchElementException;
 
 import static junit.framework.Assert.*;
 
-@SuppressWarnings("unchecked")
-public abstract class AbstractListTest {
-    private List list;
 
+public abstract class AbstractListTest {
+    private List<Object> list;
+
+    @SuppressWarnings("unchecked")
     @Before
     public void before() {
         list = createList();
@@ -218,6 +219,7 @@ public abstract class AbstractListTest {
         assertTrue(list.isEmpty());
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void testIterator() {
         if (list instanceof LinkedList) {
@@ -286,7 +288,7 @@ public abstract class AbstractListTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testInitialSizeCheck() {
-        ArrayList al = new ArrayList(-1);
+       // List al = new List(-1);
     }
 
     @Test(expected = NoSuchElementException.class)

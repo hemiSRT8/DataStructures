@@ -115,7 +115,7 @@ public class HashMap<K, V> {
         return size;
     }
 
-    private int calculateIndex(Object obj) {
+    private int calculateIndex(K obj) {
         return obj.hashCode() % 16;
     }
 

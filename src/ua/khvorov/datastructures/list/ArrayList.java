@@ -3,18 +3,19 @@ package ua.khvorov.datastructures.list;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+@SuppressWarnings("unchecked")
 public class ArrayList<E> implements List<E>, Iterable {
 
-    private Object[] array;
+    private E[] array;
     private int size;
 
     public ArrayList() {
-        array = new Object[10];
+        array = (E[]) new Object[10];
     }
 
     public ArrayList(int capacity) {
         initialSizeCheck(capacity);
-        array = new Object[capacity];
+        array = (E[]) new Object[capacity];
     }
 
     @Override
@@ -23,7 +24,7 @@ public class ArrayList<E> implements List<E>, Iterable {
         if (size < array.length) {
             System.arraycopy(array, index, array, index + 1, size - index);
         } else {
-            Object[] result = new Object[array.length * 2];
+            E[] result = (E[]) new Object[array.length * 2];
             System.arraycopy(array, 0, result, 0, size);
             System.arraycopy(result, index, result, index + 1, size - index);
             array = result;
@@ -49,7 +50,7 @@ public class ArrayList<E> implements List<E>, Iterable {
     @Override
     public E get(int index) {
         rangeCheck(index);
-        return (E) array[index];
+        return array[index];
     }
 
     @Override
