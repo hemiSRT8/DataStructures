@@ -3,6 +3,7 @@ package ua.khvorov.datastructures.list;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 import static junit.framework.Assert.*;
@@ -219,41 +220,26 @@ public abstract class AbstractListTest {
         assertTrue(list.isEmpty());
     }
 
-    @SuppressWarnings("unchecked")
     @Test
-    public void testIterator() {
-        if (list instanceof LinkedList) {
-            LinkedList original = (LinkedList) list;
-            LinkedList copy = new LinkedList();
+    public void testListIterator() {
+        Iterator iterator = list.iterator();
 
-            original.add(1, 2, 3, 4, 5);
-            for (Object obj : original) {
-                copy.add(obj);
-            }
+        list.add(1, 2, 3);
+        assertTrue(list.size() == 3);
+        assertTrue(iterator.hasNext());
 
-            for (int i = 0; i < original.size(); i++) {
-                assertEquals(original.get(i), copy.get(i));
-            }
+        iterator.next();
 
-            original.clear();
-            assertFalse(original.iterator().hasNext());
+        iterator.remove();
+        assertTrue(list.size() == 2);
+        assertTrue(iterator.hasNext());
 
-        } else if (list instanceof ArrayList) {
-            ArrayList original = (ArrayList) list;
-            ArrayList copy = new ArrayList();
+        iterator.remove();
+        assertTrue(list.size() == 1);
+        assertFalse(iterator.hasNext()); //last element , no next elements exist
 
-            original.add(1, 2, 3, 4, 5);
-            for (Object obj : original) {
-                copy.add(obj);
-            }
-
-            for (int i = 0; i < original.size(); i++) {
-                assertEquals(original.get(i), copy.get(i));
-            }
-
-            original.clear();
-            assertFalse(original.iterator().hasNext());
-        }
+        iterator.remove();
+        assertTrue(list.isEmpty());
     }
 
     @Test(expected = IndexOutOfBoundsException.class)
@@ -284,21 +270,5 @@ public abstract class AbstractListTest {
         assertTrue(list.size() == 4); // в коллекции 4 элемента
         // для метода remove доступны индексы : 0 , 1 , 2 , 3
         list.remove(4); // пробуем удалить элемент по индексу 4 - получаем  иключение
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testInitialSizeCheck() {
-       // List al = new List(-1);
-    }
-
-    @Test(expected = NoSuchElementException.class)
-    public void testNext() {
-        if (list instanceof LinkedList) {
-            LinkedList linkedList = (LinkedList) list;
-            linkedList.iterator().next();
-        } else if (list instanceof ArrayList) {
-            ArrayList arrayList = (ArrayList) list;
-            arrayList.iterator().next();
-        }
     }
 }

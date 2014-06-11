@@ -1,6 +1,6 @@
 package ua.khvorov.datastructures.list;
 
-public interface List<E> {
+public interface List<E> extends Iterable<E> {
     void add(E element, int index);
 
     void add(E element);

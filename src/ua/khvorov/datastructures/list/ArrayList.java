@@ -3,21 +3,23 @@ package ua.khvorov.datastructures.list;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-@SuppressWarnings("unchecked")
-public class ArrayList<E> implements List<E>, Iterable {
+public class ArrayList<E> implements List<E> {
 
     private E[] array;
     private int size;
 
+    @SuppressWarnings("unchecked")
     public ArrayList() {
         array = (E[]) new Object[10];
     }
 
+    @SuppressWarnings("unchecked")
     public ArrayList(int capacity) {
         initialSizeCheck(capacity);
         array = (E[]) new Object[capacity];
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void add(E element, int index) {
         rangeCheckForAdd(index);
@@ -154,7 +156,7 @@ public class ArrayList<E> implements List<E>, Iterable {
     }
 
     @Override
-    public Iterator iterator() {
+    public Iterator<E> iterator() {
         return new ArrayListIterator();
     }
 

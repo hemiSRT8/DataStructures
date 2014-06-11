@@ -3,7 +3,7 @@ package ua.khvorov.datastructures.list;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class LinkedList<E> implements List<E>, Iterable {
+public class LinkedList<E> implements List<E> {
 
     private Node<E> first;
     private Node<E> last;
@@ -232,11 +232,11 @@ public class LinkedList<E> implements List<E>, Iterable {
      */
 
     @Override
-    public Iterator iterator() {
+    public Iterator<E> iterator() {
         return new LinkedListIterator();
     }
 
-    private class LinkedListIterator implements Iterator {
+    private class LinkedListIterator implements Iterator<E> {
 
         private int position = -1;
 
@@ -250,7 +250,7 @@ public class LinkedList<E> implements List<E>, Iterable {
         }
 
         @Override
-        public Object next() {
+        public E next() {
             if (!hasNext()) {
                 throw new NoSuchElementException();
             }
