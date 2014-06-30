@@ -14,15 +14,15 @@ public class LinkedList<E> implements List<E> {
     }
 
     @Override
-    public void add(E element, int index) {
+    public boolean add(E element, int index) {
         addIndexRangeCheck(index);
 
         if (index == 0) {
             addFirst(element);
-            return;
+            return false;
         } else if (index == size) {
             add(element);
-            return;
+            return false;
         }
 
         Node<E> target = first;
@@ -38,10 +38,12 @@ public class LinkedList<E> implements List<E> {
         target.prev = newNode;
 
         size++;
+
+        return true;
     }
 
     @Override
-    public void add(E element) {
+    public boolean add(E element) {
         Node<E> newNode = new Node<E>();
         newNode.item = element;
 
@@ -54,9 +56,11 @@ public class LinkedList<E> implements List<E> {
             last = newNode;
         }
         size++;
+
+        return true;
     }
 
-    public void addFirst(E element) {
+    public boolean addFirst(E element) {
         Node<E> newNode = new Node<E>();
         newNode.item = element;
 
@@ -69,13 +73,17 @@ public class LinkedList<E> implements List<E> {
             first = newNode;
         }
         size++;
+
+        return true;
     }
 
     @Override
-    public void add(E... args) {
+    public boolean add(E... args) {
         for (E element : args) {
             add(element);
         }
+
+        return true;
     }
 
     @Override
