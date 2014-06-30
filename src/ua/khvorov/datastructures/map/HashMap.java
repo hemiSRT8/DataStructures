@@ -9,6 +9,7 @@ public class HashMap<K, V> {
     private ArrayList<Entry>[] mainList;
     private int size;
 
+    @SuppressWarnings("unchecked")
     public HashMap() {
         mainList = (ArrayList<Entry>[]) new ArrayList[16];
         for (int i = 0; i < 16; i++) {
@@ -119,19 +120,18 @@ public class HashMap<K, V> {
         return obj.hashCode() % 16;
     }
 
-
     private class Entry {
 
-        private K key;
+        private final K KEY;
         private V value;
 
         private Entry(K key, V value) {
-            this.key = key;
+            this.KEY = key;
             this.value = value;
         }
 
         public K getKey() {
-            return key;
+            return KEY;
         }
 
         public V getValue() {
